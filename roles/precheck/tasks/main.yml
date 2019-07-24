@@ -1,0 +1,25 @@
+--- 
+- name: Harvest Arista facts
+  eos_facts:
+  when: ansible_network_os == 'eos'
+
+- name: Push to the local system
+  copy:
+    content: "{{ ansible_facts | to_nice_json }}"
+    dest: "/home/student/mycode/{{ inventory_hostname }}.txt"
+  tags:
+    - never
+    - grabfacts
+
+- debug:
+    msg: "Network device lacks the correct number of interfaces. Should be {{ switchint }} but is {{ ansible_facts.net_interfaces | length }}."
+  when: ansible_facts.net_interfaces|length != switchint
+
+- debug:
+    msg: "Network device is running the wrong firmware. Should be {{ switchver }} but is {{ ansible_facts.net_version }}."
+  when: switchver not in ansible_facts.net_version
+
+- fail:
+    msg: "Fail. Network device is running the wrong firmware or lacks the correct number of interfaces."
+  when: switchver not in ansible_facts.net_version or ansible_facts.net_interfaces|length != switchint
+
