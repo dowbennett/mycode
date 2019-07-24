@@ -1,0 +1,31 @@
+---
+- hosts: planetexpress
+  gather_facts: True
+
+  tasks:
+    - name: Bastet on Debian system
+      apt:
+        name: bastet
+        state: present
+      become: yes
+      when: ansible_os_family == "Debian"
+
+    - name: Bastet on RedHat system
+      yum:
+        name: bastet
+        state: present
+      become: yes
+      when: ansible_os_family == "RedHat"
+
+    - name: Get all home directories across all systems
+      command: ls /home
+      become: yes
+      register: homevar
+
+    - name: Create a README file if it does not exist in every home user directory
+      lineinfile:
+        create: yes
+        path: /home/{{ item }}/README.txt
+        line: "Type bastet to play the Tetris emulator. Use CTRL + C to quit."
+      loop: "{{ homevar.stdout_lines }}"
+      become: yes
