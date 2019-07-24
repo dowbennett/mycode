@@ -1,0 +1,23 @@
+---
+- hosts: all
+  gather_facts: false
+  vars:
+    ansible_connection: network_cli
+    ansible_network_os: eos
+    ansible_become: yes
+    ansible_become_method: enable
+    ansible_user: admin
+    ansible_ssh_pass: alta3
+
+  tasks:
+    - name: Arista fact collection
+      eos_facts:
+        gather_subset: all
+    - name: Create Arista config save directory
+      file: path=arista_config/ state=directory
+    - name: Arista Config Save
+      shell: "echo '{{ ansible_net_config }}' > arista_config/{{ ansible_net_hostname }}"
+    - name: Arista Archival process
+      archive:
+        path: arista_config/{{ ansible_net_hostname }}
+        #remove: True
