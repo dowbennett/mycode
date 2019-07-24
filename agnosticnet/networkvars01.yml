@@ -1,0 +1,16 @@
+---
+- hosts: ~^arista
+  gather_facts: no
+
+  tasks:
+  - name: Configure DNS
+    cli_config:
+      config: ip name-server 8.8.8.8
+
+  - name: Check config
+    cli_command:
+      command: sh run | i ip name-server
+
+  - name: print output
+    debug:
+      var: results.stdout
