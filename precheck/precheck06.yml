@@ -1,0 +1,30 @@
+---
+- hosts: ~^arista
+  gather_facts: no
+  vars:
+    switchint: 14
+    switchver: "4.22" 
+
+  tasks:
+    - name: Harvest Arista facts
+      eos_facts:
+      when: ansible_network_os == 'eos'
+
+    - name: Push to the local system
+      copy:
+        content: "{{ ansible_facts | to_nice_json }}"
+        dest: "/home/student/mycode/{{ inventory_hostname }}.txt"
+      tags:
+        - never
+        - grabfacts
+
+    - debug:
+        var: ansible_facts.net_version
+
+    - fail:
+        msg: "FAIL. Network device lacks the correct number of interfaces."
+      when: ansible_facts.net_interfaces|length != switchint
+
+    - fail:
+        msg: "Fail. Network device is running the wrong firmware."
+      when: switchver not in ansible_facts.net_version
