@@ -1,0 +1,11 @@
+[aristaswitches]
+napya-307-sw1
+napya-307-sw2
+
+[aristaswitches:vars]
+ansible_network_os=eos
+ansible_connection=network_cli
+ansible_become=yes
+ansible_become_method=enable
+ansible_user=admin
+

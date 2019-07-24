@@ -1,0 +1,10 @@
+---
+- hosts: aristaswitches
+  gather_facts: no
+
+  vars_files: vault.yml
+
+  tasks:
+  - name: Harvest Arista Facts
+    eos_facts:
+    when: ansible_network_os == 'eos'
