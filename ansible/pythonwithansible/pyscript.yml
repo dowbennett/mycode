@@ -1,0 +1,14 @@
+---
+- hosts: localhost
+
+  tasks:
+    - script: /home/student/pyhello.py
+      args:
+        executable: python3
+      register: results
+
+    - debug:
+        msg: "Here is what came back: {{ results }}"
+
+    - debug:
+        msg: "The output of python is {{ results.stdout }}"
