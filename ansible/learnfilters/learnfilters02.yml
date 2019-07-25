@@ -1,0 +1,12 @@
+---
+- hosts: localhost
+  gather_facts: no
+
+  tasks:
+          - name: Jinja2 default filter
+            pause:
+                    seconds: "{{ sleeptime | default(45) }}"
+
+          - name: Jinja2 default filter
+            debug:
+                    msg: "prevent undefined var err {{ myvariable | default('by setting a default', true) }}"
