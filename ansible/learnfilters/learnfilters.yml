@@ -31,4 +31,7 @@
           - name: Diff two lists
             debug:
                     msg: 'Display the diffs of two lists {{ repeatlist|difference(repeat2list) }}'
+          - name: Combine two lists
+            debug:
+                    msg: "Display two combined lists {{ repeatlist + repeat2list }}"
 

@@ -1,0 +1,42 @@
+---
+- hosts: localhost
+
+  vars:
+          test_list:
+                  - '192.168.2.1'
+                  - '10.10.0.2'
+                  - 'host.example.org'
+                  - '192.168.70.0/24'
+                  - 'fe80::100/10'
+                  - True
+                  - 'Witcher3 The Wild Hunt'
+                  - 'Earl Grey Tea, hot'
+          mytest_string: "ncc1701 uss enterprise"
+          myaddresses: ['192.168.2.101','10.0.3.50','171.172.32.1']
+
+  tasks:
+          - name: just want IPs
+            debug:
+                    msg: "{{ test_list | ipaddr }}"
+          - name: spawn random mac
+            debug:
+                    msg: "{{'52.44:00' | random_mac }}"
+          - name: some dont require brackets
+            debug:
+                    var: "'52.54.11'|random_mac"
+          - name: Test if string ends in prise
+            debug:
+                    msg: "{{ mytest_string.endswith('prise') }}"
+          - name: Only prints when this tests true
+            debug:
+                    msg: "Is it true?"
+            when: mytest_string.endswith('prise')
+          - name: Jinja2 capitalize
+            debug:
+                    msg: "{{ mytest_string | capitalize }}"
+          - name: python capitalize
+            debug:
+                    msg: "{{ mytest_string.capitalize() }}"
+          - name: number 50
+            debug:
+                    msg: "{{ (myaddresses|ipaddr('10.0.0.0/8'))[0].split('.')[3] }}"
