@@ -1,0 +1,13 @@
+---
+- hosts: localhost
+  gather_facts: false
+
+  tasks:
+   - name: "Learning about the debug module"
+     debug:
+       msg: " Debug prints to screen. --> {{ item }}"
+     with_items:
+     - "1) A hyphen represents an item on a list"
+     - "2) second"
+     - "3) Third"
+     - "4) item var is replaced by items in the list!"

@@ -63,6 +63,7 @@ rooms = {
             'item' : 'chad'
             },
         'Pantry' : {
+            'south' : 'Kitchen',
             'item' : 'monster'
             }
         }
@@ -81,10 +82,8 @@ while True:
 
 #GO
     if move[0] == 'go':
-        if move[1] == 'Door' and 'key' in inventory:
-            currentRoom = rooms[currentRoom][move[1]]
-        if move[1] in rooms[currentRoom] and move[1] != 'Door':
-            currentRoom = rooms[currentRoom][move[1]]
+        if move[1] in rooms[currentRoom]:
+            currentRoom = rooms[currentRoom][move[1]]       
         else:
             print('You can\'t go that way!')
 
@@ -109,7 +108,7 @@ while True:
 #MONSTERDEFEAT
     if 'item' in rooms[currentRoom] and 'monster' in rooms[currentRoom]['item'] and 'sword' in inventory:
         print('You open the Pantry. A monster jumps out! You pull out your sword and defeat the monster.')
-        rooms[currentRoom]['item'] = 'Dead Monster'
+        rooms[currentRoom]['item'] = 'deadmonster'
 
 #SAVE PRINCESS AND CHAD
     if currentRoom == 'Door' and 'princess' in inventory and 'chad' in inventory:
