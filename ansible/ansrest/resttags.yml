@@ -1,0 +1,14 @@
+---
+- hosts: localhost
+  gather_facts: no
+
+  vars:
+    myrsakey: "{{ lookup('file', '/home/student/.ssh/id_rsa.pub') }}"
+
+  tasks:
+   - name: key prep
+     debug:
+       msg: "Your RSA key is {{ myrsakey }}"
+     tags:
+      - keytime
+      - vmprep
