@@ -1,0 +1,12 @@
+---
+- hosts: localhost
+
+  tasks:
+  - name: 'New module'
+    my_new_test_module:
+      name: who you gonna call
+      combine: True
+    register: results
+
+  - debug:
+      var: results.message
